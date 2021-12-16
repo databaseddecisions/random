@@ -91,7 +91,9 @@ c.execute('''
     ''')
 orders_2018 = c.fetchall()[0][0]
 print('There were '+str(orders_2018)+ ' orders in 2018')
+
 # Orders including any orders that were returned
+# How many orders were completed in 2018 containing at least 10 units?
 c.execute('''
         SELECT
         count(x.order_id)
@@ -107,9 +109,10 @@ c.execute('''
         WHERE 1=1
         and quantity >= 10
           ''')
-
 order_quantity = c.fetchall()[0][0]
 print('There were '+str(order_quantity)+ ' orders in 2018 with 10 or more items')
+
+# How many customers have ever purchased a medium sized sweater with a discount?
 # Orders including any orders that were returned
 c.execute('''
         SELECT
@@ -129,6 +132,8 @@ c.execute('''
 
 customer_numbers = c.fetchall()[0][0]
 print('There are '+str(customer_numbers)+ ' unique customers that have ordered a size M sweater')
+
+#How profitable was our most profitable month?
 # Not including returned orders in profit
 c.execute('''
  select
@@ -191,6 +196,8 @@ month = all[0]
 year = all[1]
 profit = all[2]
 print('Most profitable month/year was in '+str(month)+'/'+str(year)+' of $'+str(profit))
+
+#What is the return rate for business vs. non-business customers?
 # Customers who returned orders are not considered for retention
 c.execute('''
     SELECT
@@ -217,6 +224,7 @@ print('The retention rate for '+str(all[1][0])+ ' customers is ' + str(all[1][3]
 c.close()
 
 # Part B
+# Price Elasticity of Demand
 # Group by date, assuming here that we aren't changing prices intraday
 orders['order_timestamp'] = pd.to_datetime(orders['order_timestamp']).dt.date
 # Include returned items - customer could have bought them for the price but returned due to something else, would need return reason data
